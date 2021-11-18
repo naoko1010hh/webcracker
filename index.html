@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>クラッカー</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/filipelinhares/ress/master/dist/ress.min.css">
+    <style>
+        #cracker{
+            width: 40vw;
+            height: 40vh;
+            background-color: #fc693b;
+            background-image:
+            repeating-linear-gradient(-45deg,orange, orange 7px,transparent 0, transparent 14px);
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: 0 auto;
+        }
+        #cracker::after{
+            position: absolute;
+            content:"";
+            left: 0;
+            border-right: 20vw solid transparent;
+            border-bottom: 40vh solid #fff;
+        }
+        #cracker::before{
+            position: absolute;
+            content:"";
+            right: 0;
+            border-left: 20vw solid transparent;
+            border-bottom: 40vh solid #fff;
+        }
+        #audio{
+            font-size: 5vw;
+            display: block;
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            border-radius: .5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="audio">ここをタップで音がなるようにする</div>
+    <div id="cracker"></div>
+
+    <script>
+        let base64 = "data:audio/mp3;base64,"+"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ShBntPYOFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//tAxPSBSiCFOew8yykQk+d08w6NVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+zDE+gBJVIU755hyqO0IZnz2GU1VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=";
+        let sound = new Audio(base64);
+
+        navigator.getBattery().then(function(battery) {
+            battery.addEventListener("chargingchange", function(){
+                if(!battery.charging){
+                    sound.play();
+                    confetti()
+                }         
+            });
+        });
+        document.getElementById("audio").addEventListener("click",function (){
+            document.getElementById("audio").style.display="none";
+            sound.pause();
+        });
+    </script>
+</body>
+
+</html>
